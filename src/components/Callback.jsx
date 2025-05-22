@@ -5,20 +5,29 @@ function Callback() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const hash = window.location.hash.substring(1);
-    const params = new URLSearchParams(hash);
-    const token = params.get("access_token");
+    const hash = window.location.hash;
+    console.log("REDIRECTED TO CALLBACK");
+    console.log("HASH:", hash);
 
-    if (token) {
-      localStorage.setItem("spotifyAccessToken", token);
+    if (!hash) {
+      console.log("No hash in URL");
+      return navigate("/login");
+    }
+
+    const params = new URLSearchParams(hash.substring(1));
+    const accessToken = params.get("access_token");
+
+    if (accessToken) {
+      console.log("Access Token:", accessToken);
+      localStorage.setItem("spotifyAccessToken", accessToken);
       navigate("/app");
     } else {
-      console.error("Token not found");
+      console.error("Token not found in hash.");
       navigate("/login");
     }
   }, [navigate]);
 
-  return <div>Processing login...</div>;
+  return <p>Authenticating with Spotify...</p>;
 }
 
 export default Callback;

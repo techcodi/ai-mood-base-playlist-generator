@@ -7,7 +7,7 @@ import { SlEnergy } from "react-icons/sl";
 import { FaCloudRain } from "react-icons/fa";
 import { RiFocus2Line } from "react-icons/ri";
 import "./Home.css";
-import { useNavigate } from "react-router-dom";
+
 function HomePage() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
