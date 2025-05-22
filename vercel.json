@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "https://ai-mood-base-playlist-generator.vercel.app/callback"
+    }
+  ]
+}

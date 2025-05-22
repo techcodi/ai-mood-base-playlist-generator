@@ -1,31 +1,24 @@
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Callback() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const hash = window.location.hash.substring(1); // remove "#"
+    const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
-    const accessToken = params.get("access_token");
+    const token = params.get("access_token");
 
-    if (accessToken) {
-      // Store token in localStorage
-      localStorage.setItem("spotifyAccessToken", accessToken);
-
-      // Redirect to your main app page
+    if (token) {
+      localStorage.setItem("spotifyAccessToken", token);
       navigate("/app");
     } else {
-      // Token missing or error
+      console.error("Token not found");
       navigate("/login");
     }
   }, [navigate]);
 
-  return (
-    <div>
-      <Link to="/app">Go to app</Link>
-    </div>
-  );
+  return <div>Processing login...</div>;
 }
 
 export default Callback;
