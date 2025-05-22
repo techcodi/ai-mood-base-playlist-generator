@@ -1,0 +1,67 @@
+.home-section {
+  margin-top: 8rem;
+  padding: 3rem 6rem;
+}
+.hero-content input[type="file"] {
+  background-color: #f4f4f4;
+  width: 200%;
+  height: 30px;
+  padding: 2rem;
+  border: 2px dotted #ddd;
+  border-radius: 5px;
+}
+.hero-content input[type="file"]::file-selector-button {
+  background-color: #118ab2;
+  border: none;
+  font-size: 1rem;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+.hero-uploads {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 2rem 4rem;
+  border-radius: 10px;
+  margin-bottom: 3rem;
+}
+.hero-content-right {
+  display: flex;
+  flex-direction: column;
+  color: #aaa;
+  width: 100%;
+  gap: 3rem;
+}
+.hero-content-right button {
+  background-color: #118ab2;
+  color: #fff;
+  font-weight: 600;
+}
+.fellings-spans {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.fellings-spans p {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.fellings-spans p span {
+  color: #fff;
+  font-size: 1.3rem;
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+  display: flex;
+  place-content: center;
+  align-items: center;
+  transition: 300ms ease;
+}
+.fellings-spans p span:hover {
+  transform: scale(1.05);
+}
