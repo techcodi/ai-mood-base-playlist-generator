@@ -3,10 +3,10 @@ const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
 
 const SCOPES = [
   "user-read-private",
-  "streaming",
   "user-read-email",
-  "playlist-modify-public",
+  "streaming",
   "playlist-modify-private",
+  "playlist-modify-public",
 ];
 
 export const getSpotifyAuthUrl = () => {

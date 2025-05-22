@@ -14,18 +14,18 @@ function HomePage() {
   const [emotion, setEmotion] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    const hash = window.location.hash.substring(1);
-    const params = new URLSearchParams(hash);
-    const token = params.get("access_token");
+  // useEffect(() => {
+  //   const hash = window.location.hash.substring(1);
+  //   const params = new URLSearchParams(hash);
+  //   const token = params.get("access_token");
 
-    if (token) {
-      localStorage.setItem("spotifyAccessToken", token);
-      navigate("/app"); // go back to main app
-    }
-  }, []);
+  //   if (token) {
+  //     localStorage.setItem("spotifyAccessToken", token);
+  //     navigate("/app"); // go back to main app
+  //   }
+  // }, []);
 
   const handleImage = async (e) => {
     const file = e.target.files[0];
