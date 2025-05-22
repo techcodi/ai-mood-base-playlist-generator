@@ -19,3 +19,4 @@ export const getSpotifyAuthUrl = () => {
 
   return `https://accounts.spotify.com/authorize?${params.toString()}`;
 };
+console.log(getSpotifyAuthUrl());
