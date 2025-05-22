@@ -6,12 +6,14 @@ export const detectEmotion = async (imageFile) => {
   formData.append("return_attributes", "emotion");
 
   try {
-    const res = await fetch();
-    // "https://api-us.faceplusplus.com/facepp/v3/detect",
-    // {
-    //   method: "POST",
-    //   body: formData,
-    // }
+    const res = await fetch(
+      "https://api-us.faceplusplus.com/facepp/v3/detect",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
     const data = await res.json();
     if (data.faces && data.faces.length > 0) {
       const emotionData = data.faces[0].attributes.emotion;

@@ -13,19 +13,34 @@ function HomePage() {
   const [preview, setPreview] = useState(null);
   const [emotion, setEmotion] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [playlists, setPlaylists] = useState([]);
 
-  // const navigate = useNavigate();
+  const moodToQuery = {
+    happy: "feel good hits",
+    sad: "sad songs",
+    angry: "rage rap",
+    neutral: "chill vibes",
+    disgust: "dark ambient",
+    surprise: "party hits",
+    fear: "soothing music",
+  };
 
-  // useEffect(() => {
-  //   const hash = window.location.hash.substring(1);
-  //   const params = new URLSearchParams(hash);
-  //   const token = params.get("access_token");
+  const searchSpotifyPlaylists = async (query) => {
+    const token = localStorage.getItem("spotifyAccessToken");
+    const response = await fetch(
+      `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+        query
+      )}&type=playlist&limit=10`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-  //   if (token) {
-  //     localStorage.setItem("spotifyAccessToken", token);
-  //     navigate("/app"); // go back to main app
-  //   }
-  // }, []);
+    const data = await response.json();
+    return data.playlists?.items || [];
+  };
 
   const handleImage = async (e) => {
     const file = e.target.files[0];
@@ -33,16 +48,27 @@ function HomePage() {
     setImage(file);
     setPreview(URL.createObjectURL(file));
     setEmotion(null);
+    setPlaylists([]); // clear previous playlists if any
   };
+
   const handleSubmit = async () => {
     if (!image) return alert("Please upload an image first");
     setIsLoading(true);
 
     try {
       const result = await detectEmotion(image);
-      setEmotion(result.emotion);
+      const detectedEmotion = result.emotion;
+      setEmotion(detectedEmotion);
+
+      // Map the detected emotion to a search query
+      const query = moodToQuery[detectedEmotion.toLowerCase()] || "chill vibes";
+
+      // Fetch playlists from Spotify
+      const results = await searchSpotifyPlaylists(query);
+      setPlaylists(results);
     } catch (error) {
-      alert("Failed to detect emotion.");
+      alert("Failed to detect emotion or fetch playlist.");
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -108,6 +134,32 @@ function HomePage() {
             <small>Focus</small>
           </p>
         </div>
+      </div>
+
+      <div>
+        {playlists.length > 0 && (
+          <div>
+            <h3>Recommended Playlists for "{emotion}" mood</h3>
+            <div className="playlist-grid">
+              {playlists.map((playlist) => (
+                <div key={playlist.id} className="playlist-card">
+                  <a
+                    href={playlist.external_urls.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src={playlist.images[0]?.url}
+                      alt={playlist.name}
+                      width="200px"
+                    />
+                    <p>{playlist.name}</p>
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
