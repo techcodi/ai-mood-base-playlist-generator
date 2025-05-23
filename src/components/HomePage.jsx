@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { detectEmotion } from "../components/detectEmotion";
 import { FaFaceSmile } from "react-icons/fa6";
 import { TbBrandMercedes } from "react-icons/tb";
@@ -12,8 +11,8 @@ function HomePage() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [emotion, setEmotion] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [playlists, setPlaylists] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const moodToQuery = {
     happy: "feel good hits",
@@ -25,8 +24,22 @@ function HomePage() {
     fear: "soothing music",
   };
 
+  const handleImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
+    setEmotion(null);
+    setPlaylists([]);
+  };
+
   const searchSpotifyPlaylists = async (query) => {
     const token = localStorage.getItem("spotifyAccessToken");
+    if (!token) {
+      alert("Spotify token not found. Please log in again.");
+      return [];
+    }
+
     const response = await fetch(
       `https://api.spotify.com/v1/search?q=${encodeURIComponent(
         query
@@ -38,17 +51,12 @@ function HomePage() {
       }
     );
 
+    if (!response.ok) {
+      throw new Error("Failed to fetch playlists from Spotify.");
+    }
+
     const data = await response.json();
     return data.playlists?.items || [];
-  };
-
-  const handleImage = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setImage(file);
-    setPreview(URL.createObjectURL(file));
-    setEmotion(null);
-    setPlaylists([]); // clear previous playlists if any
   };
 
   const handleSubmit = async () => {
@@ -60,16 +68,12 @@ function HomePage() {
       const detectedEmotion = result.emotion;
       setEmotion(detectedEmotion);
 
-      // Map the detected emotion to a search query
       const query = moodToQuery[detectedEmotion.toLowerCase()] || "chill vibes";
-
-      // Fetch playlists from Spotify
       const results = await searchSpotifyPlaylists(query);
-      console.log(results);
       setPlaylists(results);
     } catch (error) {
-      alert("Failed to detect emotion or fetch playlist.");
-      console.error(error);
+      console.error("Emotion detection or playlist fetch failed:", error);
+      alert("Failed to detect emotion or fetch playlists.");
     } finally {
       setIsLoading(false);
     }
@@ -78,35 +82,33 @@ function HomePage() {
   return (
     <div className="home-section">
       <div>
-        <h2>How are you feeling today?ttttt</h2>
+        <h2>How are you feeling today?</h2>
         <div className="hero-content">
           {preview && <img src={preview} alt="preview" width="300px" />}
           <div className="hero-uploads">
             <input type="file" accept="image/*" onChange={handleImage} />
-
             <div className="hero-content-right">
               <div>
-                <small>Supported formats: JPG,PNG</small> <br />
-                <small>Size: must not be greater than 2mb</small>
+                <small>Supported formats: JPG, PNG</small> <br />
+                <small>Size: must not be greater than 2MB</small>
               </div>
-
               <button onClick={handleSubmit} disabled={isLoading}>
-                {isLoading ? "Analyzing..." : "Analyze Mood..."}{" "}
+                {isLoading ? "Analyzing..." : "Analyze Mood..."}
               </button>
             </div>
           </div>
         </div>
 
         {emotion && (
-          <p className="">
-            Detected Emotion: <span className="">{emotion}</span>
+          <p>
+            Detected Emotion: <strong>{emotion}</strong>
           </p>
         )}
 
         <div className="fellings-spans">
           <p>
             <span style={{ backgroundColor: "#ffd166" }}>
-              <FaFaceSmile />{" "}
+              <FaFaceSmile />
             </span>
             <small>Happy</small>
           </p>
@@ -137,31 +139,29 @@ function HomePage() {
         </div>
       </div>
 
-      <div>
-        {playlists.length > 0 && (
-          <div>
-            <h3>Recommended Playlists for "{emotion}" mood</h3>
-            <div className="playlist-grid">
-              {playlists.map((playlist) => (
-                <div key={playlist.id} className="playlist-card">
-                  <a
-                    href={playlist.external_urls.spotify}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      src={playlist.images[0]?.url}
-                      alt={playlist.name}
-                      width="200px"
-                    />
-                    <p>{playlist.name}</p>
-                  </a>
-                </div>
-              ))}
-            </div>
+      {playlists.length > 0 && (
+        <div>
+          <h3>Recommended Playlists for "{emotion}" mood</h3>
+          <div className="playlist-grid">
+            {playlists.map((playlist) => (
+              <div key={playlist.id} className="playlist-card">
+                <a
+                  href={playlist.external_urls.spotify}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src={playlist.images[0]?.url}
+                    alt={playlist.name}
+                    width="200px"
+                  />
+                  <p>{playlist.name}</p>
+                </a>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
