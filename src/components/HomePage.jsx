@@ -24,7 +24,7 @@ function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const token = localStorage.getItem("spotifyAccessToken");
-
+  console.log("Token:", token);
   const searchSpotifyPlaylists = async (query) => {
     const response = await fetch(
       `https://api.spotify.com/v1/search?q=${encodeURIComponent(
@@ -95,7 +95,7 @@ function HomePage() {
           </p>
         )}
 
-        <div className="feelings-spans">
+        <div className="fellings-spans">
           <p>
             <span style={{ backgroundColor: "#ffd166" }}>
               <FaFaceSmile />
