@@ -4,6 +4,7 @@ import { FaFaceSmile, FaCloudRain } from "react-icons/fa6";
 import { TbBrandMercedes } from "react-icons/tb";
 import { SlEnergy } from "react-icons/sl";
 import { RiFocus2Line } from "react-icons/ri";
+import { GoPlay } from "react-icons/go";
 import "./Home.css";
 
 const moodToQuery = {
@@ -105,7 +106,10 @@ function HomePage() {
   };
 
   const playPlaylist = async (uri) => {
-    if (!deviceId) return alert("Spotify player not ready");
+    if (!deviceId)
+      return alert(
+        "You must be a premium spotify before you can access this feature"
+      );
     try {
       await fetch(
         `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
@@ -158,7 +162,7 @@ function HomePage() {
             <small>Happy</small>
           </p>
           <p>
-            <span style={{ backgroundColor: "#118ab2" }}>
+            <span style={{ backgroundColor: "#1d63ff" }}>
               <TbBrandMercedes />
             </span>
             <small>Calm</small>
@@ -194,11 +198,36 @@ function HomePage() {
               if (!uri || !imageUrl) return null;
 
               return (
-                <div key={playlist.id} className="playlist-card">
-                  <img src={imageUrl} alt={playlist.name} width="200px" />
-                  <p>{playlist.name}</p>
-                  <button onClick={() => playPlaylist(uri)}>Play</button>
-                </div>
+                <>
+                  {/* <div key={playlist.id} className="playlist-card">
+                    <img src={imageUrl} alt={playlist.name} width="200px" />
+                    <p>{playlist.name}</p>
+                    <button onClick={() => playPlaylist(uri)}>Play</button>
+                  </div> */}
+
+                  <table key={playlist.id} className="playlist-card">
+                    <tr>
+                      <th>Songs</th>
+                      <th>Title</th>
+                      <th>Duration</th>
+                      <th>Actions</th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <img src={imageUrl} alt={playlist.name} width="50px" />{" "}
+                      </td>
+                      <td>
+                        <p>{playlist.name}</p>
+                      </td>
+                      <td>
+                        {" "}
+                        <button onClick={() => playPlaylist(uri)}>
+                          <GoPlay />
+                        </button>
+                      </td>
+                    </tr>
+                  </table>
+                </>
               );
             })}
           </div>

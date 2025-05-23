@@ -2,11 +2,15 @@ import "./Header.css";
 import { FaFaceSmile } from "react-icons/fa6";
 import { IoIosContact } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
-function Header() {
+import { MdOutlineDarkMode } from "react-icons/md";
+import { MdOutlineLightMode } from "react-icons/md";
+function Header({ setIsDarkMode, isDarkMode }) {
   return (
-    <nav>
+    <nav style={{ backgroundColor: isDarkMode ? "#000" : "#fff" }}>
       <div className="nav-container">
-        <p className="logo">🎵 MoodPlay</p>
+        <p className="logo" style={{ color: "#1d63ff" }}>
+          🎵 Moodify
+        </p>
 
         <div className="nav-right">
           <p
@@ -27,11 +31,14 @@ function Header() {
             <small style={{ color: "#555" }}>Happy</small>
           </p>
 
-          <p style={{ fontSize: "20px" }}>
-            <IoSettingsOutline />
+          <p
+            style={{ fontSize: "20px", cursor: "pointer" }}
+            onClick={() => setIsDarkMode(!isDarkMode)}
+          >
+            {isDarkMode ? <MdOutlineDarkMode /> : <MdOutlineLightMode />}
           </p>
 
-          <p style={{ color: "#118ab2", fontSize: "20px" }}>
+          <p style={{ color: "#1d63ff", fontSize: "20px" }}>
             <IoIosContact />{" "}
           </p>
         </div>

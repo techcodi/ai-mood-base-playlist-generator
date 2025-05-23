@@ -2,8 +2,11 @@
   margin-top: 8rem;
   padding: 3rem 6rem;
 }
+.home-section h2 {
+  font-size: 2.3rem;
+  margin-bottom: 1rem;
+}
 .hero-content input[type="file"] {
-  background-color: #f4f4f4;
   width: 200%;
   height: 30px;
   padding: 2rem;
@@ -11,7 +14,7 @@
   border-radius: 5px;
 }
 .hero-content input[type="file"]::file-selector-button {
-  background-color: #118ab2;
+  background-color: var(--color-primary);
   border: none;
   font-size: 1rem;
   color: #fff;
@@ -36,7 +39,7 @@
   gap: 3rem;
 }
 .hero-content-right button {
-  background-color: #118ab2;
+  background-color: var(--color-primary);
   color: #fff;
   font-weight: 600;
 }
@@ -64,4 +67,20 @@
 }
 .fellings-spans p span:hover {
   transform: scale(1.05);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
 }

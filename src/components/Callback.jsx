@@ -12,9 +12,9 @@ function Callback() {
     if (code) {
       getToken(code)
         .then(() => navigate("/app"))
-        .catch(() => navigate("/login"));
+        .catch(() => navigate("/"));
     } else {
-      navigate("/login");
+      navigate("/");
     }
   }, [navigate]);
 
