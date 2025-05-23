@@ -7,7 +7,7 @@ export const detectEmotion = async (imageFile) => {
 
   try {
     const res = await fetch(
-      // "https://api-us.faceplusplus.com/facepp/v3/detect",
+      "https://api-us.faceplusplus.com/facepp/v3/detect",
       {
         method: "POST",
         body: formData,
