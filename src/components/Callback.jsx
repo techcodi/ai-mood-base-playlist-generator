@@ -1,23 +1,24 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getToken } from "../utils/spotifyAuth";
 
 function Callback() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const hash = window.location.hash.substring(1);
-    const params = new URLSearchParams(hash);
-    const token = params.get("access_token");
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
 
-    if (token) {
-      localStorage.setItem("spotifyAccessToken", token);
-      navigate("/app");
+    if (code) {
+      getToken(code)
+        .then(() => navigate("/app"))
+        .catch(() => navigate("/login"));
     } else {
       navigate("/login");
     }
   }, [navigate]);
 
-  return <p>Redirecting...</p>;
+  return <p>Processing login...</p>;
 }
 
 export default Callback;
