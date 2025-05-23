@@ -65,6 +65,7 @@ function HomePage() {
 
       // Fetch playlists from Spotify
       const results = await searchSpotifyPlaylists(query);
+      console.log(results);
       setPlaylists(results);
     } catch (error) {
       alert("Failed to detect emotion or fetch playlist.");
@@ -77,7 +78,7 @@ function HomePage() {
   return (
     <div className="home-section">
       <div>
-        <h2>How are you feeling today?</h2>
+        <h2>How are you feeling today?ttttt</h2>
         <div className="hero-content">
           {preview && <img src={preview} alt="preview" width="300px" />}
           <div className="hero-uploads">
