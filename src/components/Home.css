@@ -6,7 +6,7 @@
   font-size: 2.3rem;
   margin-bottom: 1rem;
 }
-.hero-content input[type="file"] {
+.hero-content input {
   width: 200%;
   height: 30px;
   padding: 2rem;
@@ -36,7 +36,7 @@
   flex-direction: column;
   color: #aaa;
   width: 100%;
-  gap: 3rem;
+  gap: 1rem;
 }
 .hero-content-right button {
   background-color: var(--color-primary);
@@ -81,6 +81,24 @@ th {
   padding: 8px;
 }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
+@media screen and (max-width: 916px) {
+  .hero-uploads {
+    width: 85%;
+  }
+  .home-section {
+    padding: 2rem 1rem;
+  }
+}
+@media screen and (max-width: 550px) {
+  .hero-uploads {
+    flex-direction: column;
+  }
+  .hero-content input {
+    width: 90%;
+  }
+  .hero-uploads {
+    padding: 1rem 2rem;
+  }
+  .fellings-spans {
+  }
 }

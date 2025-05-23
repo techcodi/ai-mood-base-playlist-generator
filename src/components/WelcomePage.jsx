@@ -5,12 +5,11 @@ function WelcomePage() {
   return (
     <div className="welcome-section">
       <div>
-        <h1>Get ready for the new era of AI</h1>
+        <h1>Your Face, Your Feelings, Your Soundtrack</h1>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
-          accusantium voluptas enim dignissimos fugiat ipsa, vero ut autem.
-          Earum voluptate enim labore nam inventore cumque. Accusamus et velit
-          optio error?
+          Turn your emotions into personalized Spotify playlists with a single.
+          We analyze your mood and play the music you need — no clicks required.
+          Upload a selfie. Discover playlists that resonate with how you feel.
         </p>
         <button onClick={redirectToSpotifyLogin}>Continue with Spotify</button>
       </div>

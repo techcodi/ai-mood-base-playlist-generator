@@ -216,11 +216,20 @@ function HomePage() {
                       <td>
                         <img src={imageUrl} alt={playlist.name} width="50px" />{" "}
                       </td>
+                    </tr>
+                    <tr>
                       <td>
                         <p>{playlist.name}</p>
                       </td>
+                    </tr>
+                    <tr>
                       <td>
-                        {" "}
+                        <small>--</small>{" "}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
                         <button onClick={() => playPlaylist(uri)}>
                           <GoPlay />
                         </button>
