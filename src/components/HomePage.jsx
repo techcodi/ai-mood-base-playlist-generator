@@ -22,9 +22,44 @@ function HomePage() {
   const [emotion, setEmotion] = useState(null);
   const [playlists, setPlaylists] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [deviceId, setDeviceId] = useState(null);
   const token = localStorage.getItem("spotifyAccessToken");
-  console.log("Token:", token);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://sdk.scdn.co/spotify-player.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const player = new window.Spotify.Player({
+        name: "AI Mood Playlist Player",
+        getOAuthToken: (cb) => cb(token),
+        volume: 0.5,
+      });
+
+      player.addListener("ready", ({ device_id }) => {
+        console.log("Ready with Device ID", device_id);
+        setDeviceId(device_id);
+      });
+
+      player.addListener("initialization_error", ({ message }) => {
+        console.error(message);
+      });
+      player.addListener("authentication_error", ({ message }) => {
+        console.error(message);
+      });
+      player.addListener("account_error", ({ message }) => {
+        console.error(message);
+      });
+      player.addListener("playback_error", ({ message }) => {
+        console.error(message);
+      });
+
+      player.connect();
+    };
+  }, [token]);
+
   const searchSpotifyPlaylists = async (query) => {
     const response = await fetch(
       `https://api.spotify.com/v1/search?q=${encodeURIComponent(
@@ -66,6 +101,26 @@ function HomePage() {
       alert("Failed to detect emotion or fetch playlist.");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const playPlaylist = async (uri) => {
+    if (!deviceId) return alert("Spotify player not ready");
+    try {
+      await fetch(
+        `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ context_uri: uri }),
+        }
+      );
+    } catch (err) {
+      console.error("Playback error:", err);
+      alert("Unable to play. Make sure Spotify is open and active.");
     }
   };
 
@@ -135,20 +190,14 @@ function HomePage() {
           <div className="playlist-grid">
             {playlists.map((playlist) => {
               const imageUrl = playlist?.images?.[0]?.url;
-              const externalUrl = playlist?.external_urls?.spotify;
-
-              if (!externalUrl || !imageUrl) return null; // skip broken entries
+              const uri = playlist?.uri;
+              if (!uri || !imageUrl) return null;
 
               return (
                 <div key={playlist.id} className="playlist-card">
-                  <a
-                    href={externalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img src={imageUrl} alt={playlist.name} width="200px" />
-                    <p>{playlist.name}</p>
-                  </a>
+                  <img src={imageUrl} alt={playlist.name} width="200px" />
+                  <p>{playlist.name}</p>
+                  <button onClick={() => playPlaylist(uri)}>Play</button>
                 </div>
               );
             })}
