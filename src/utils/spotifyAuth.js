@@ -12,7 +12,7 @@ const SCOPES = [
 export const getSpotifyAuthUrl = () => {
   const params = new URLSearchParams({
     client_id: CLIENT_ID,
-    response_type: "token", // important for IGF
+    response_type: "code",
     redirect_uri: REDIRECT_URI,
     scope: SCOPES.join(" "),
   });
