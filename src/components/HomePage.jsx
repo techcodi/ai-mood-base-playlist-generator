@@ -133,22 +133,25 @@ function HomePage() {
         <div>
           <h3>Recommended Playlists for "{emotion}" Mood</h3>
           <div className="playlist-grid">
-            {playlists.map((playlist) => (
-              <div key={playlist.id} className="playlist-card">
-                <a
-                  href={playlist.external_urls.spotify}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={playlist.images[0]?.url}
-                    alt={playlist.name}
-                    width="200px"
-                  />
-                  <p>{playlist.name}</p>
-                </a>
-              </div>
-            ))}
+            {playlists.map((playlist) => {
+              const imageUrl = playlist?.images?.[0]?.url;
+              const externalUrl = playlist?.external_urls?.spotify;
+
+              if (!externalUrl || !imageUrl) return null; // skip broken entries
+
+              return (
+                <div key={playlist.id} className="playlist-card">
+                  <a
+                    href={externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={imageUrl} alt={playlist.name} width="200px" />
+                    <p>{playlist.name}</p>
+                  </a>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
