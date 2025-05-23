@@ -206,35 +206,43 @@ function HomePage() {
                   </div> */}
 
                   <table key={playlist.id} className="playlist-card">
-                    <tr>
-                      <th>Songs</th>
-                      <th>Title</th>
-                      <th>Duration</th>
-                      <th>Actions</th>
-                    </tr>
-                    <tr>
-                      <td>
-                        <img src={imageUrl} alt={playlist.name} width="50px" />{" "}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>{playlist.name}</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <small>--</small>{" "}
-                      </td>
-                    </tr>
+                    <thead>
+                      <tr>
+                        <th>Songs</th>
+                        <th>Title</th>
+                        <th>Duration</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <img
+                            src={imageUrl}
+                            alt={playlist.name}
+                            width="50px"
+                          />{" "}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p>{playlist.name}</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <small>--</small>{" "}
+                        </td>
+                      </tr>
 
-                    <tr>
-                      <td>
-                        <button onClick={() => playPlaylist(uri)}>
-                          <GoPlay />
-                        </button>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td>
+                          <button onClick={() => playPlaylist(uri)}>
+                            <GoPlay />
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
                 </>
               );
