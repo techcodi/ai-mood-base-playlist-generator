@@ -191,63 +191,53 @@ function HomePage() {
       {playlists.length > 0 && (
         <div>
           <h3>Recommended Playlists for "{emotion}" Mood</h3>
-          <div className="playlist-grid">
-            {playlists.map((playlist) => {
-              const imageUrl = playlist?.images?.[0]?.url;
-              const uri = playlist?.uri;
-              if (!uri || !imageUrl) return null;
+          <table className="playlist-grid">
+            <thead>
+              <tr>
+                <th>Songs</th>
+                <th>Title</th>
+                <th>Duration</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {playlists.map((playlist) => {
+                const imageUrl = playlist?.images?.[0]?.url;
+                const uri = playlist?.uri;
+                if (!uri || !imageUrl) return null;
 
-              return (
-                <>
-                  {/* <div key={playlist.id} className="playlist-card">
+                return (
+                  <>
+                    {/* <div key={playlist.id} className="playlist-card">
                     <img src={imageUrl} alt={playlist.name} width="200px" />
                     <p>{playlist.name}</p>
                     <button onClick={() => playPlaylist(uri)}>Play</button>
                   </div> */}
 
-                  <table key={playlist.id} className="playlist-card">
-                    <thead>
-                      <tr>
-                        <th>Songs</th>
-                        <th>Title</th>
-                        <th>Duration</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <img
-                            src={imageUrl}
-                            alt={playlist.name}
-                            width="50px"
-                          />{" "}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <p>{playlist.name}</p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <small>--</small>{" "}
-                        </td>
-                      </tr>
+                    <tr key={playlist.id} className="playlist-card">
+                      <td>
+                        <img src={imageUrl} alt={playlist.name} width="50px" />{" "}
+                      </td>
 
-                      <tr>
-                        <td>
-                          <button onClick={() => playPlaylist(uri)}>
-                            <GoPlay />
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </>
-              );
-            })}
-          </div>
+                      <td>
+                        <p>{playlist.name}</p>
+                      </td>
+
+                      <td>
+                        <small>--</small>{" "}
+                      </td>
+
+                      <td>
+                        <button onClick={() => playPlaylist(uri)}>
+                          <GoPlay />
+                        </button>
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
